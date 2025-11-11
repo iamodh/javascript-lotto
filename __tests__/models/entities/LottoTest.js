@@ -12,4 +12,19 @@ describe('로또 클래스 테스트', () => {
       new Lotto([1, 2, 3, 4, 5, 5]);
     }).toThrow('[ERROR]');
   });
+
+  test('당첨 로또와 비교하여 자신의 등수를 계산한다.', () => {
+    const lotto = new Lotto([1, 2, 3, 4, 5, 6]);
+
+    const mockWinningLotto = {
+      calculateMatchCount: (lottoNumbers) => {
+        return 5;
+      },
+      calculateBonusMatch: (lottoNumbers) => {
+        return true;
+      },
+    };
+
+    expect(lotto.calculateRank(mockWinningLotto)).toBe(2);
+  });
 });
