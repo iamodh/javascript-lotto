@@ -23,8 +23,20 @@ class Lotto {
     }
   }
 
-  getNumbers() {
-    return this.#numbers;
+  calculateRank(winningLotto) {
+    const matchCount = winningLotto.calculateMatchCount(this.#numbers);
+    const hasBonus = winningLotto.calculateBonusMatch(this.#numbers);
+
+    return this.#determineRank(matchCount, hasBonus);
+  }
+
+  #determineRank(matchCount, hasBonus) {
+    if (matchCount === 6) return 1;
+    if (matchCount === 5 && hasBonus) return 2;
+    if (matchCount === 5) return 3;
+    if (matchCount === 4) return 4;
+    if (matchCount === 3) return 3;
+    return null;
   }
 }
 
