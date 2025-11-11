@@ -1,6 +1,6 @@
 import LottoController from './controllers/LottoController.js';
 import DIContainer from './DIContainer.js';
-import LottoResult from './models/entities/LottoResult.js';
+import LottoResult from './models/domains/LottoResult.js';
 import LottoMachine from './models/services/LottoMachine.js';
 import InputView from './views/InputView.js';
 import OutputView from './views/OutputView.js';

@@ -1,4 +1,4 @@
-import LottoResult from '../../../src/models/entities/LottoResult';
+import LottoResult from '../../../src/models/domains/LottoResult';
 
 describe('LottoResult 클래스 테스트', () => {
   test('lottos와 winningLotto를 받아 우승 통계를 계산한다.', () => {

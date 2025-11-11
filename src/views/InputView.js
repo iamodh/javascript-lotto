@@ -1,7 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
 import ERROR_MESSAGES from '../constants/errorMessages.js';
-import LottoMachine from '../models/services/LottoMachine.js';
-import Lotto from '../models/entities/Lotto.js';
 import LOTTO_CONFIG from '../constants/lottoConfig.js';
 
 class InputView {

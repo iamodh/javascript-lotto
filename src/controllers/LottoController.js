@@ -1,4 +1,4 @@
-import WinningLotto from '../models/entities/WinningLotto.js';
+import WinningLotto from '../models/domains/WinningLotto.js';
 
 class LottoController {
   #inputView;

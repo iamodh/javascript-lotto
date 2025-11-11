@@ -1,5 +1,4 @@
 import { Console } from '@woowacourse/mission-utils';
-import LottoResult from '../models/entities/LottoResult.js';
 import PRIZE_CONFIG from '../constants/prizeConfig.js';
 
 class OutputView {
