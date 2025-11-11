@@ -1,4 +1,5 @@
-import LOTTO_CONFIG from '/src/constants/lottoConfig';
+import LOTTO_CONFIG from '../../src/constants/lottoConfig';
+import LottoMachine from '../../src/models/services/LottoMachine';
 import { mockQuestions } from '/src/utils/mocks';
 import Input from '/src/views/InputView';
 

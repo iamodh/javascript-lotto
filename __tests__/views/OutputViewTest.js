@@ -1,41 +1,23 @@
-import Lotto from '../../src/models/entities/Lotto';
-import User from '/src/models/entities/User';
-import { getLogSpy, mockRandoms } from '/src/utils/mocks';
+import { getLogSpy } from '/src/utils/mocks';
 import Output from '/src/views/OutputView';
 
 describe('출력 뷰 클래스 테스트', () => {
-  test('구매한 로또들을 받아 각 번호를 오름차순으로 정렬한 후, 형식에 맞게 출력한다.', () => {
+  test('정렬된 로또 번호들을 형식에 맞게 출력한다.', () => {
     const output = new Output();
     const logSpy = getLogSpy();
 
-    const NUMBERS = [
-      [8, 21, 23, 41, 42, 43],
-      [3, 5, 11, 16, 32, 38],
-      [7, 11, 16, 35, 36, 44],
-      [1, 8, 11, 31, 41, 42],
-      [13, 14, 16, 38, 42, 45],
-      [7, 11, 30, 40, 42, 43],
-      [2, 13, 22, 32, 38, 45],
-      [1, 3, 5, 14, 22, 45],
+    const mockLottos = [
+      { getSortedNumbers: () => [8, 21, 23, 41, 42, 43] },
+      { getSortedNumbers: () => [3, 5, 11, 16, 32, 38] },
     ];
-    const lottos = [];
-    for (number of NUMBERS) {
-      lottos.push(new Lotto(number));
-    }
 
     const logs = [
-      '8개를 구매했습니다.',
+      '2개를 구매했습니다.',
       '[8, 21, 23, 41, 42, 43]',
       '[3, 5, 11, 16, 32, 38]',
-      '[7, 11, 16, 35, 36, 44]',
-      '[1, 8, 11, 31, 41, 42]',
-      '[13, 14, 16, 38, 42, 45]',
-      '[7, 11, 30, 40, 42, 43]',
-      '[2, 13, 22, 32, 38, 45]',
-      '[1, 3, 5, 14, 22, 45]',
     ];
 
-    output.printPurchasedLottos(lottos);
+    output.printPurchasedLottos(mockLottos);
 
     // logSpy가 log를 포함한 string을 매개변수로 호출되었는지 테스트
     logs.forEach((log) => {
@@ -44,18 +26,18 @@ describe('출력 뷰 클래스 테스트', () => {
   });
 
   test('당첨 통계를 받아 형식에 맞게 출력한다.', () => {
-    const WINNING_STATISTIC = {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [[1, 3, 5, 14, 22, 45]],
-    };
+    const STATS_MAP = new Map([
+      ['FIRST', 0],
+      ['SECOND', 0],
+      ['THIRD', 0],
+      ['FOURTH', 0],
+      ['FIFTH', 1],
+    ]);
 
     const logSpy = getLogSpy();
     const output = new Output();
 
-    output.printWinningStatistic(WINNING_STATISTIC);
+    output.printWinningStatistic(STATS_MAP);
 
     const logs = [
       '당첨 통계',
