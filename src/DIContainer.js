@@ -1,8 +1,8 @@
 class DIContainer {
   #services = new Map();
 
-  register(serviceName, serviceDefinition, dependencyNames = []) {
-    this.#services.set(serviceName, { serviceDefinition, dependencyNames });
+  register(serviceName, serviceDefinition, args = []) {
+    this.#services.set(serviceName, { serviceDefinition, args });
   }
 
   resolve(serviceName) {
@@ -12,11 +12,20 @@ class DIContainer {
       throw new Error(`[ERROR] ${serviceName}이 존재하지 않습니다.`);
     }
 
-    const resolvedDependencies = service.dependencyNames.map((depName) =>
-      this.resolve(depName)
-    );
+    const resolved = [];
 
-    return new service.serviceDefinition(...resolvedDependencies);
+    // 의존성은 반드시 register가 먼저 되어야 함
+    service.args.map((arg) => {
+      if (this.#services.has(arg)) {
+        // 의존성인 경우
+        resolved.push(this.resolve(arg));
+      } else {
+        // 일반 값인 경우
+        resolved.push(arg);
+      }
+    });
+
+    return new service.serviceDefinition(...resolved);
   }
 
   hasService(serviceName) {

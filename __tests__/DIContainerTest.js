@@ -55,4 +55,29 @@ describe('DI컨테이너 클래스 테스트', () => {
       expect(instance.dependency).toBeInstanceOf(MockDependency);
     });
   });
+
+  test('인자에 의존성 이외의 값이 전달되면, 인스턴스화 하지 않고 생성자 함수로 전달한다.', () => {
+    const container = new DIContainer();
+    const SERVICE_NAME = 'mockService';
+    const DEPENDENCY_NAME = 'mockDependency';
+
+    class MockDependency {}
+    class MockService {
+      value1;
+      value2;
+      dependency;
+      constructor(value1, value2, dependency) {
+        this.value1 = value1;
+        this.value2 = value2;
+        this.dependency = dependency;
+      }
+    }
+
+    container.register(DEPENDENCY_NAME, MockDependency);
+    container.register(SERVICE_NAME, MockService, [1, 2, DEPENDENCY_NAME]);
+    const instance = container.resolve(SERVICE_NAME);
+    expect(instance).toBeInstanceOf(MockService);
+    expect(instance.value1).toBe(1);
+    expect(instance.dependency).toBeInstanceOf(MockDependency);
+  });
 });
