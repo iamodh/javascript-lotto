@@ -1,26 +1,23 @@
 import Lotto from '../domains/Lotto.js';
 import LOTTO_CONFIG from '../../constants/lottoConfig.js';
-import { Random } from '@woowacourse/mission-utils';
 
 class LottoMachine {
+  #numbersGenerator;
+
+  constructor(numbersGenerator) {
+    this.#numbersGenerator = numbersGenerator;
+  }
+
   execute(money) {
     const lottos = [];
     const quantity = money / LOTTO_CONFIG.PRICE;
     for (let i = 0; i < quantity; i++) {
-      const randomNumbers = this.#getRandomLottoNumbers();
+      const numbers = this.#numbersGenerator.generate();
 
-      lottos.push(new Lotto(randomNumbers));
+      lottos.push(new Lotto(numbers));
     }
 
     return lottos;
-  }
-
-  #getRandomLottoNumbers() {
-    return Random.pickUniqueNumbersInRange(
-      LOTTO_CONFIG.NUMBER_RANGE_FROM,
-      LOTTO_CONFIG.NUMBER_RANGE_TO,
-      LOTTO_CONFIG.NUMBERS_COUNT
-    );
   }
 }
 
