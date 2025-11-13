@@ -1,7 +1,8 @@
-import DEV_CONFIG from './constants/devConfig.js';
+import FIXED_NUMBERS from './constants/fixedNumbers.js';
 import LottoController from './controllers/LottoController.js';
 import DIContainer from './DIContainer.js';
 import LottoConfig from './models/configs/LottoConfig.js';
+import PrizeConfig from './models/configs/PrizeConfig.js';
 import LottoMachine from './models/domains/LottoMachine.js';
 import FixedStrategy from './models/domains/strategies/FixedStrategy.js';
 import RandomStrategy from './models/domains/strategies/RandomStrategy.js';
@@ -14,14 +15,13 @@ class App {
     const container = new DIContainer();
 
     container.register('lottoConfig', LottoConfig);
+    container.register('prizeConfig', PrizeConfig);
 
     container.register('inputView', InputView, ['lottoConfig']);
-    container.register('outputView', OutputView);
+    container.register('outputView', OutputView, ['prizeConfig']);
 
     if (env === 'dev') {
-      container.register('fixedStrategy', FixedStrategy, [
-        DEV_CONFIG.FIXED_NUMBERS,
-      ]);
+      container.register('fixedStrategy', FixedStrategy, [FIXED_NUMBERS]);
       container.register('lottoMachine', LottoMachine, [
         'fixedStrategy',
         'lottoConfig',
@@ -41,6 +41,7 @@ class App {
       'lottoMachine',
       'lottoChecker',
       'lottoConfig',
+      'prizeConfig',
     ]);
 
     const controller = container.resolve('lottoController');

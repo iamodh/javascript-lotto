@@ -1,7 +1,13 @@
 import { Console } from '@woowacourse/mission-utils';
-import PRIZE_CONFIG from '../constants/prizeConfig.js';
+import WINNING_CONDITION from '../constants/winningCondition.js';
 
 class OutputView {
+  #prizeConfig;
+
+  constructor(prizeConfig) {
+    this.#prizeConfig = prizeConfig;
+  }
+
   printPurchasedLottos(lottos) {
     Console.print(`${lottos.length}개를 구매했습니다.`);
 
@@ -15,11 +21,9 @@ class OutputView {
     Console.print('---');
 
     for (const [rank, count] of winningStatistic.entries()) {
-      const money = PRIZE_CONFIG.MONEY[rank].toLocaleString();
+      const money = this.#prizeConfig.getPrize(rank).toLocaleString();
 
-      Console.print(
-        `${PRIZE_CONFIG.CONDITION[rank]} (${money}원) - ${count}개`
-      );
+      Console.print(`${WINNING_CONDITION[rank]} (${money}원) - ${count}개`);
     }
   }
 

@@ -7,13 +7,22 @@ class LottoController {
   #lottoMachine;
   #lottoChecker;
   #lottoConfig;
+  #prizeConfig;
 
-  constructor(inputView, outputView, lottoMachine, lottoChecker, lottoConfig) {
+  constructor(
+    inputView,
+    outputView,
+    lottoMachine,
+    lottoChecker,
+    lottoConfig,
+    prizeConfig
+  ) {
     this.#inputView = inputView;
     this.#outputView = outputView;
     this.#lottoChecker = lottoChecker;
     this.#lottoMachine = lottoMachine;
     this.#lottoConfig = lottoConfig;
+    this.#prizeConfig = prizeConfig;
   }
 
   async start() {
@@ -38,7 +47,11 @@ class LottoController {
       const stats = this.#lottoChecker.calculateStats(lottos, winningLotto);
       this.#outputView.printWinningStatistic(stats);
 
-      const lottoResult = new LottoResult(purchaseMoney, stats);
+      const lottoResult = new LottoResult(
+        purchaseMoney,
+        stats,
+        this.#prizeConfig
+      );
       this.#outputView.printProfitRate(lottoResult.calculateProfitRate());
     } catch (error) {
       this.#outputView.printError(error.message);

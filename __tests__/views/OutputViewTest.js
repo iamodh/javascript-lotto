@@ -1,9 +1,16 @@
+import PrizeConfig from '../../src/models/configs/PrizeConfig';
 import { getLogSpy } from '/src/utils/mocks';
 import Output from '/src/views/OutputView';
 
 describe('출력 뷰 클래스 테스트', () => {
+  let defaultPrizeConfig;
+
+  beforeEach(() => {
+    defaultPrizeConfig = new PrizeConfig();
+  });
+
   test('정렬된 로또 번호들을 형식에 맞게 출력한다.', () => {
-    const output = new Output();
+    const output = new Output(defaultPrizeConfig);
     const logSpy = getLogSpy();
 
     const mockLottos = [
@@ -35,7 +42,7 @@ describe('출력 뷰 클래스 테스트', () => {
     ]);
 
     const logSpy = getLogSpy();
-    const output = new Output();
+    const output = new Output(defaultPrizeConfig);
 
     output.printWinningStatistic(STATS_MAP);
 
@@ -59,7 +66,7 @@ describe('출력 뷰 클래스 테스트', () => {
     const logSpy = getLogSpy();
     const log = '총 수익률은 62.5%입니다.';
 
-    const output = new Output();
+    const output = new Output(defaultPrizeConfig);
     output.printProfitRate(PROFIT_RATE);
 
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining(log));

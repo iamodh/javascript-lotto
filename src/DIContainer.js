@@ -14,7 +14,7 @@ class DIContainer {
 
     const resolved = [];
 
-    // 의존성은 반드시 register가 먼저 되어야 함
+    // 의존성은 반드시 register가 되어 있어야 함
     service.args.map((arg) => {
       if (this.#services.has(arg)) {
         // 의존성인 경우

@@ -1,12 +1,12 @@
-import PRIZE_CONFIG from '../../constants/prizeConfig.js';
-
 class LottoResult {
   #purchaseMoney;
   #stats;
+  #prizeConfig;
 
-  constructor(purchaseMoney, stats) {
+  constructor(purchaseMoney, stats, prizeConfig) {
     this.#purchaseMoney = purchaseMoney;
     this.#stats = stats;
+    this.#prizeConfig = prizeConfig;
   }
 
   calculateProfitRate() {
@@ -18,7 +18,7 @@ class LottoResult {
   #calculateTotalPrize() {
     let totalPrize = 0;
     for (const [rank, count] of this.#stats.entries()) {
-      totalPrize += (PRIZE_CONFIG.MONEY[rank] || 0) * count;
+      totalPrize += (this.#prizeConfig.getPrize(rank) || 0) * count;
     }
 
     return totalPrize;
