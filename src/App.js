@@ -2,8 +2,8 @@ import DEV_CONFIG from './constants/devConfig.js';
 import LOTTO_CONFIG from './constants/lottoConfig.js';
 import LottoController from './controllers/LottoController.js';
 import DIContainer from './DIContainer.js';
-import LottoResult from './models/domains/LottoResult.js';
 import FixedStrategy from './models/services/FixedStrategy.js';
+import LottoChecker from './models/services/LottoChecker.js';
 import LottoMachine from './models/services/LottoMachine.js';
 import RandomStrategy from './models/services/RandomStrategy.js';
 import InputView from './views/InputView.js';
@@ -29,11 +29,12 @@ class App {
       container.register('lottoMachine', LottoMachine, ['randomStrategy']);
     }
 
-    container.register('lottoResult', LottoResult);
+    container.register('lottoChecker', LottoChecker);
     container.register('lottoController', LottoController, [
       'inputView',
       'outputView',
       'lottoMachine',
+      'lottoChecker',
       'lottoResult',
     ]);
 

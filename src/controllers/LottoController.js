@@ -1,16 +1,17 @@
+import LottoResult from '../models/domains/LottoResult.js';
 import WinningLotto from '../models/domains/WinningLotto.js';
 
 class LottoController {
   #inputView;
   #outputView;
   #lottoMachine;
-  #lottoResult;
+  #lottoChecker;
 
-  constructor(inputView, outputView, lottoMachine, lottoResult) {
+  constructor(inputView, outputView, lottoMachine, lottoChecker) {
     this.#inputView = inputView;
     this.#outputView = outputView;
+    this.#lottoChecker = lottoChecker;
     this.#lottoMachine = lottoMachine;
-    this.#lottoResult = lottoResult;
   }
 
   async start() {
@@ -28,11 +29,11 @@ class LottoController {
 
       const winningLotto = new WinningLotto(winningNumbers, bonusNumber);
 
-      const stats = this.#lottoResult.calculateStatistics(lottos, winningLotto);
+      const stats = this.#lottoChecker.calculateStats(lottos, winningLotto);
       this.#outputView.printWinningStatistic(stats);
 
-      const profitRate = this.#lottoResult.calculateProfitRate(purchaseMoney);
-      this.#outputView.printProfitRate(profitRate);
+      const lottoResult = new LottoResult(purchaseMoney, stats);
+      this.#outputView.printProfitRate(lottoResult.calculateProfitRate());
     } catch (error) {
       this.#outputView.printError(error.message);
     }
