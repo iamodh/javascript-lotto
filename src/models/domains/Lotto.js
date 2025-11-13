@@ -1,18 +1,24 @@
-import ERROR_MESSAGES from '../../constants/errorMessages.js';
-import LOTTO_CONFIG from '../../constants/lottoConfig.js';
+import {
+  ERROR_MESSAGES,
+  getInvalidCountMessage,
+} from '../../constants/errorMessages';
 
 class Lotto {
   #numbers;
+  #lottoConfig;
 
-  constructor(numbers) {
+  constructor(numbers, lottoConfig) {
+    this.#lottoConfig = lottoConfig;
+
     this.#validateNumbersCount(numbers);
     this.#validateNumbersDuplicates(numbers);
     this.#numbers = numbers;
   }
 
   #validateNumbersCount(numbers) {
-    if (numbers.length !== LOTTO_CONFIG.NUMBERS_COUNT) {
-      throw new Error(ERROR_MESSAGES.NUMBERS_INVALID_COUNT);
+    const count = this.#lottoConfig.getNumbersCount();
+    if (numbers.length !== count) {
+      throw new Error(getInvalidCountMessage(count));
     }
   }
 

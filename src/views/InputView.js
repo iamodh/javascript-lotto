@@ -1,8 +1,17 @@
 import { Console } from '@woowacourse/mission-utils';
-import ERROR_MESSAGES from '../constants/errorMessages.js';
-import LOTTO_CONFIG from '../constants/lottoConfig.js';
+import {
+  ERROR_MESSAGES,
+  getInvalidPricaMessage,
+  getNumberNotInRangeMessage,
+} from '../constants/errorMessages';
 
 class InputView {
+  #lottoConfig;
+
+  constructor(lottoConfig) {
+    this.#lottoConfig = lottoConfig;
+  }
+
   async getPurchasePrice() {
     const input = await Console.readLineAsync('구입금액을 입력해 주세요.\n');
 
@@ -41,18 +50,18 @@ class InputView {
 
   #validateNumberInRange(number) {
     this.#validateNumberPositive(number);
+    const from = this.#lottoConfig.getNumbersFrom();
+    const to = this.#lottoConfig.getNumbersTo();
 
-    if (
-      number < LOTTO_CONFIG.NUMBER_RANGE_FROM ||
-      number > LOTTO_CONFIG.NUMBER_RANGE_TO
-    ) {
-      throw new Error(ERROR_MESSAGES.NUMBER_NOT_IN_RANGE);
+    if (number < from || number > to) {
+      throw new Error(getNumberNotInRangeMessage(from, to));
     }
   }
 
   #valiadtePurchasePrice(purchasePrice) {
-    if (purchasePrice % LOTTO_CONFIG.PRICE !== 0) {
-      throw new Error(ERROR_MESSAGES.INVALID_PRICE);
+    const price = this.#lottoConfig.getPrice();
+    if (purchasePrice % price !== 0) {
+      throw new Error(getInvalidPricaMessage(price));
     }
   }
 }
