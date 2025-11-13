@@ -19,9 +19,9 @@ describe('LottoResult 클래스 테스트', () => {
     ]);
 
     const lottoResult = new LottoResult(
+      defaultPrizeConfig,
       PURCHASE_MONEY,
-      fakeStats,
-      defaultPrizeConfig
+      fakeStats
     );
 
     expect(lottoResult.calculateProfitRate()).toBeCloseTo(62.5);

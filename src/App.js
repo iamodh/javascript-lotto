@@ -23,25 +23,25 @@ class App {
     if (env === 'dev') {
       container.register('fixedStrategy', FixedStrategy, [FIXED_NUMBERS]);
       container.register('lottoMachine', LottoMachine, [
-        'fixedStrategy',
         'lottoConfig',
+        'fixedStrategy',
       ]);
     } else {
       container.register('randomStrategy', RandomStrategy, ['lottoConfig']);
       container.register('lottoMachine', LottoMachine, [
-        'randomStrategy',
         'lottoConfig',
+        'randomStrategy',
       ]);
     }
 
     container.register('lottoChecker', LottoChecker);
     container.register('lottoController', LottoController, [
+      'lottoConfig',
+      'prizeConfig',
       'inputView',
       'outputView',
       'lottoMachine',
       'lottoChecker',
-      'lottoConfig',
-      'prizeConfig',
     ]);
 
     const controller = container.resolve('lottoController');

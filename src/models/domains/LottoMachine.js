@@ -1,11 +1,11 @@
 import Lotto from './Lotto.js';
 
 class LottoMachine {
-  #numbersGenerator;
   #lottoConfig;
-  constructor(numbersGenerator, lottoConfig) {
-    this.#numbersGenerator = numbersGenerator;
+  #numbersGenerator;
+  constructor(lottoConfig, numbersGenerator) {
     this.#lottoConfig = lottoConfig;
+    this.#numbersGenerator = numbersGenerator;
   }
 
   execute(money) {
@@ -14,7 +14,7 @@ class LottoMachine {
     for (let i = 0; i < quantity; i++) {
       const numbers = this.#numbersGenerator.generate();
 
-      lottos.push(new Lotto(numbers, this.#lottoConfig));
+      lottos.push(new Lotto(this.#lottoConfig, numbers));
     }
 
     return lottos;

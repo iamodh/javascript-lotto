@@ -7,7 +7,7 @@ describe('로또 머신 클래스 테스트', () => {
     const lottoConfig = new LottoConfig();
     const randomStrategy = new RandomStrategy(lottoConfig);
 
-    const lottoMachine = new LottoMachine(randomStrategy, lottoConfig);
+    const lottoMachine = new LottoMachine(lottoConfig, randomStrategy);
 
     const PURCHASE_MONEY = 3000;
     const QUANTITY = 3;

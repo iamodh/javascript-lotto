@@ -4,10 +4,10 @@ import {
 } from '../../constants/errorMessages';
 
 class Lotto {
-  #numbers;
   #lottoConfig;
+  #numbers;
 
-  constructor(numbers, lottoConfig) {
+  constructor(lottoConfig, numbers) {
     this.#lottoConfig = lottoConfig;
 
     this.#validateNumbersCount(numbers);

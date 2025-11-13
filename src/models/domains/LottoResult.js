@@ -1,12 +1,12 @@
 class LottoResult {
+  #prizeConfig;
   #purchaseMoney;
   #stats;
-  #prizeConfig;
 
-  constructor(purchaseMoney, stats, prizeConfig) {
+  constructor(prizeConfig, purchaseMoney, stats) {
+    this.#prizeConfig = prizeConfig;
     this.#purchaseMoney = purchaseMoney;
     this.#stats = stats;
-    this.#prizeConfig = prizeConfig;
   }
 
   calculateProfitRate() {
