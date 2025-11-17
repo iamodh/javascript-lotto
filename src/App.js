@@ -11,8 +11,19 @@ import InputView from './views/InputView.js';
 import OutputView from './views/OutputView.js';
 
 class App {
+  #container;
+
+  constructor() {
+    this.#container = new DIContainer();
+  }
   async run(env) {
-    const container = new DIContainer();
+    this.#injectDependencies(env);
+    const controller = this.#container.resolve('lottoController');
+    await controller.start();
+  }
+
+  #injectDependencies(env) {
+    const container = this.#container;
 
     container.register('lottoConfig', LottoConfig, 'singleton');
     container.register('prizeConfig', PrizeConfig, 'singleton');
@@ -49,7 +60,6 @@ class App {
     ]);
 
     const controller = container.resolve('lottoController');
-    await controller.start();
   }
 }
 
