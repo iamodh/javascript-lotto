@@ -26,35 +26,38 @@ class LottoController {
   }
 
   async start() {
-    try {
-      const purchaseMoney = await this.#inputView.getPurchasePrice();
-      this.#outputView.printNewLine();
+    while (true) {
+      try {
+        const purchaseMoney = await this.#inputView.getPurchasePrice();
+        this.#outputView.printNewLine();
 
-      const lottos = this.#lottoMachine.execute(purchaseMoney);
-      this.#outputView.printPurchasedLottos(lottos);
-      this.#outputView.printNewLine();
+        const lottos = this.#lottoMachine.execute(purchaseMoney);
+        this.#outputView.printPurchasedLottos(lottos);
+        this.#outputView.printNewLine();
 
-      const winningNumbers = await this.#inputView.getWinningNumbers();
-      const bonusNumber = await this.#inputView.getBonusNumber();
-      this.#outputView.printNewLine();
+        const winningNumbers = await this.#inputView.getWinningNumbers();
+        const bonusNumber = await this.#inputView.getBonusNumber();
+        this.#outputView.printNewLine();
 
-      const winningLotto = new WinningLotto(
-        this.#lottoConfig,
-        winningNumbers,
-        bonusNumber
-      );
+        const winningLotto = new WinningLotto(
+          this.#lottoConfig,
+          winningNumbers,
+          bonusNumber
+        );
 
-      const stats = this.#lottoChecker.calculateStats(lottos, winningLotto);
-      this.#outputView.printWinningStatistic(stats);
+        const stats = this.#lottoChecker.calculateStats(lottos, winningLotto);
+        this.#outputView.printWinningStatistic(stats);
 
-      const lottoResult = new LottoResult(
-        this.#prizeConfig,
-        purchaseMoney,
-        stats
-      );
-      this.#outputView.printProfitRate(lottoResult.calculateProfitRate());
-    } catch (error) {
-      this.#outputView.printError(error.message);
+        const lottoResult = new LottoResult(
+          this.#prizeConfig,
+          purchaseMoney,
+          stats
+        );
+        this.#outputView.printProfitRate(lottoResult.calculateProfitRate());
+        return;
+      } catch (error) {
+        this.#outputView.printError(error.message);
+      }
     }
   }
 }
