@@ -13,8 +13,6 @@ class LottoConfig {
       NUMBER_RANGE_TO: NUMBER_RANGE_TO,
       NUMBERS_COUNT: NUMBERS_COUNT,
     };
-
-    Object.freeze(this.#config);
   }
 
   getPrice() {
@@ -31,6 +29,10 @@ class LottoConfig {
 
   getNumbersCount() {
     return this.#config.NUMBERS_COUNT;
+  }
+
+  updateConfigs(updates) {
+    this.#config = { ...updates };
   }
 }
 
