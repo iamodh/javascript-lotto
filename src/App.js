@@ -3,13 +3,15 @@ import DIContainer from './DIContainer.js';
 import LottoConfig from './models/configs/LottoConfig.js';
 import PrizeConfig from './models/configs/PrizeConfig.js';
 import LottoMachine from './models/domains/LottoMachine.js';
+import FIXED_NUMBERS from './constants/fixedNumbers.js';
+import FixedStrategy from './models/domains/strategies/FixedStrategy.js';
 import RandomStrategy from './models/domains/strategies/RandomStrategy.js';
 import LottoChecker from './models/services/LottoChecker.js';
 import InputView from './views/InputView.js';
 import OutputView from './views/OutputView.js';
 
 class App {
-  async run() {
+  async run(env) {
     const container = new DIContainer();
 
     container.register('lottoConfig', LottoConfig, 'singleton');
@@ -18,13 +20,23 @@ class App {
     container.register('inputView', InputView, 'singleton', ['lottoConfig']);
     container.register('outputView', OutputView, 'singleton', ['prizeConfig']);
 
-    container.register('randomStrategy', RandomStrategy, 'singleton', [
-      'lottoConfig',
-    ]);
-    container.register('lottoMachine', LottoMachine, 'transient', [
-      'lottoConfig',
-      'randomStrategy',
-    ]);
+    if (env === 'dev') {
+      container.register('fixedStrategy', FixedStrategy, 'singleton', [
+        FIXED_NUMBERS,
+      ]);
+      container.register('lottoMachine', LottoMachine, 'transient', [
+        'lottoConfig',
+        'fixedStrategy',
+      ]);
+    } else {
+      container.register('randomStrategy', RandomStrategy, 'singleton', [
+        'lottoConfig',
+      ]);
+      container.register('lottoMachine', LottoMachine, 'transient', [
+        'lottoConfig',
+        'randomStrategy',
+      ]);
+    }
 
     container.register('lottoChecker', LottoChecker, 'singleton');
     container.register('lottoController', LottoController, 'transient', [
